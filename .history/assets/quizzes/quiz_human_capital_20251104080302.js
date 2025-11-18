@@ -3,30 +3,17 @@ window.DMI_QUESTION_SETS = window.DMI_QUESTION_SETS || {};
 DMI_QUESTION_SETS["human_capital"] = {
   title: "Human Capital Department Digital Maturity Assessment (DMI)",
   shortcode: "HR",
-  totalQuestions: 24,
-  maxScore: 24 * 5,
-
+  totalQuestions: 12,
+  maxScore: 12 * 5,
   sections: [
     { name: "1) Service Catalogue & Offering Definition", questions: ["Q1", "Q2"] },
     { name: "2) Process Automation & Integration", questions: ["Q3", "Q4"] },
     { name: "3) Process Documentation & KPI Tracking", questions: ["Q5", "Q6"] },
     { name: "4) Policy Management & Self-Service", questions: ["Q7", "Q8"] },
     { name: "5) SOPs & Auditability", questions: ["Q9", "Q10"] },
-    { name: "6) AI & Knowledge Management", questions: ["Q11", "Q12"] },
-
-    // NEW SECTIONS ADDED
-    { name: "7) Talent Acquisition Intelligence", questions: ["Q13", "Q14"] },
-    { name: "8) Workforce Planning & Productivity", questions: ["Q15", "Q16"] },
-    { name: "9) Engagement, Culture & Experience", questions: ["Q17", "Q18"] },
-    { name: "10) Learning & Development (L&D)", questions: ["Q19", "Q20"] },
-    { name: "11) HR Operations & Case Management", questions: ["Q21", "Q22"] },
-    { name: "12) Governance, Compliance & Digital Security", questions: ["Q23", "Q24"] }
+    { name: "6) AI & Knowledge Management", questions: ["Q11", "Q12"] }
   ],
-
   questions: [
-    // -------------------------------
-    // ORIGINAL QUESTIONS (Q1–Q12)
-    // -------------------------------
     {
       id: "Q1", area: "Service Catalogue", title: "Service Catalogue & Offering Definition",
       text: "What HR services are formally defined and documented (e.g., workforce planning, recruitment, onboarding for visa centers, L&D, payroll, performance, ER/IR), with service owners, SLAs, and request channels?",
@@ -158,155 +145,13 @@ DMI_QUESTION_SETS["human_capital"] = {
         { value: 4, text: "4. Fully managed HR knowledge base with ownership, versioning, and usage tracking." },
         { value: 5, text: "5. Intelligent HR knowledge hub with auto-refresh cycles, AI search, and audit analytics." }
       ]
-    },
-
-    // -------------------------------
-    // NEW QUESTIONS (Q13–Q24)
-    // -------------------------------
-
-    {
-      id: "Q13", area: "Recruitment Analytics", title: "Recruitment Analytics & Insight Utilization",
-      text: "How effectively does the HR Department use recruitment analytics (e.g., funnel analytics, source effectiveness, rejection insights, interview performance, time-to-fill trends)?",
-      choices: [
-        { value: 1, text: "1. Recruitment data not analyzed; decisions rely on manual observations." },
-        { value: 2, text: "2. Basic reports available but inconsistently reviewed for decision-making." },
-        { value: 3, text: "3. Standard dashboards for key recruitment KPIs used periodically." },
-        { value: 4, text: "4. Real-time recruitment analytics used to optimize sourcing and screening." },
-        { value: 5, text: "5. Predictive models actively improve hiring strategy, success probability, and workforce planning." }
-      ]
-    },
-
-    {
-      id: "Q14", area: "Digital Screening", title: "Digital Assessment & Screening Tools Adoption",
-      text: "To what extent are digital tools used for skills assessment, psychometrics, automated screening, or structured competency evaluation?",
-      choices: [
-        { value: 1, text: "1. No structured digital assessments used for hiring decisions." },
-        { value: 2, text: "2. Limited assessments used manually for select roles only." },
-        { value: 3, text: "3. Standardized digital assessment tools used across key job families." },
-        { value: 4, text: "4. Fully integrated screening platform with competency-based evaluation workflows." },
-        { value: 5, text: "5. AI-driven assessment ecosystem providing predictive role fit and success scoring." }
-      ]
-    },
-
-    {
-      id: "Q15", area: "Workforce Planning", title: "Workforce Planning & Forecasting Maturity",
-      text: "How mature is HR workforce planning in forecasting manpower demand, skill requirements, and workforce availability using structured methodologies?",
-      choices: [
-        { value: 1, text: "1. No forecasting; hiring is reactive based on immediate need." },
-        { value: 2, text: "2. Informal planning using spreadsheets with inconsistent accuracy." },
-        { value: 3, text: "3. Structured annual workforce plan aligned to business needs." },
-        { value: 4, text: "4. Data-driven workforce planning integrated with financial and operational systems." },
-        { value: 5, text: "5. Predictive workforce modeling leveraging AI and multi-year scenario analytics." }
-      ]
-    },
-
-    {
-      id: "Q16", area: "Productivity", title: "Productivity Measurement & Workforce Insights",
-      text: "How effectively does HR track productivity, workload, capacity, and workforce efficiency using digital tools or analytics?",
-      choices: [
-        { value: 1, text: "1. No productivity tracking or workload visibility." },
-        { value: 2, text: "2. Basic manual tracking for select teams or centers." },
-        { value: 3, text: "3. Standard dashboards showing workload distribution and employee utilization." },
-        { value: 4, text: "4. Advanced analytics integrated with HCM and performance systems." },
-        { value: 5, text: "5. Predictive insights forecasting capacity gaps, workload risks, and operational improvements." }
-      ]
-    },
-
-    {
-      id: "Q17", area: "Engagement", title: "Employee Engagement Monitoring & Actions",
-      text: "How systematically does HR collect, measure, and act on employee engagement metrics (eNPS, surveys, pulse checks, exit insights)?",
-      choices: [
-        { value: 1, text: "1. Engagement not measured or monitored consistently." },
-        { value: 2, text: "2. Occasional surveys without structured action plans." },
-        { value: 3, text: "3. Annual engagement surveys with defined improvement initiatives." },
-        { value: 4, text: "4. Continuous pulse-based engagement insights with targeted interventions." },
-        { value: 5, text: "5. AI-driven sentiment analytics and predictive engagement risk analysis." }
-      ]
-    },
-
-    {
-      id: "Q18", area: "DEX", title: "Digital Employee Experience (DEX)",
-      text: "What is the maturity of HR’s digital tools and processes in enhancing employee experience across the full lifecycle?",
-      choices: [
-        { value: 1, text: "1. Employee experience unmanaged; processes often manual and fragmented." },
-        { value: 2, text: "2. Some digital tools exist but inconsistently applied." },
-        { value: 3, text: "3. Standardized digital touchpoints across core HR services." },
-        { value: 4, text: "4. End-to-end digital experience with feedback loops and service analytics." },
-        { value: 5, text: "5. Personalized AI-driven experience with predictive recommendations and automation." }
-      ]
-    },
-
-    {
-      id: "Q19", area: "LMS", title: "LMS Adoption & Content Digitalization",
-      text: "How mature is HR in using a Learning Management System (LMS) for digital courses, certifications, tracking, and development pathways?",
-      choices: [
-        { value: 1, text: "1. Training tracked manually; no LMS in use." },
-        { value: 2, text: "2. Partial use of LMS for uploading training records." },
-        { value: 3, text: "3. Standard LMS with course library and completion tracking." },
-        { value: 4, text: "4. Full LMS integration with competency frameworks and digital journeys." },
-        { value: 5, text: "5. AI-driven upskilling pathways with adaptive learning and predictive training needs." }
-      ]
-    },
-
-    {
-      id: "Q20", area: "Competency", title: "Learning Analytics & Competency Mapping",
-      text: "How well does HR track skills, competencies, certification status, and development needs through analytics?",
-      choices: [
-        { value: 1, text: "1. No structured competency tracking system exists." },
-        { value: 2, text: "2. Skills documented manually with limited accuracy." },
-        { value: 3, text: "3. Structured competency matrix used for development planning." },
-        { value: 4, text: "4. Competency analytics integrated with HRIS and learning systems." },
-        { value: 5, text: "5. Predictive skill-gap analytics guiding talent mobility and workforce development." }
-      ]
-    },
-
-    {
-      id: "Q21", area: "Case Management", title: "HR Case Management System Maturity",
-      text: "How mature is the HR case management system for handling employee requests, tracking SLAs, and resolving issues?",
-      choices: [
-        { value: 1, text: "1. Requests handled via email or informal channels." },
-        { value: 2, text: "2. Basic tracking through Excel or shared mailboxes." },
-        { value: 3, text: "3. Standard HR case management portal with SLAs." },
-        { value: 4, text: "4. Fully digital case lifecycle with automated routing and dashboards." },
-        { value: 5, text: "5. Intelligent case resolution with AI triage and knowledge-driven self-resolution." }
-      ]
-    },
-
-    {
-      id: "Q22", area: "Automation", title: "Automation of HR Operational Activities",
-      text: "To what extent are routine HR tasks (contract creation, letters, payroll changes, attendance updates) automated?",
-      choices: [
-        { value: 1, text: "1. All activities performed manually." },
-        { value: 2, text: "2. Limited automation for document generation." },
-        { value: 3, text: "3. Moderate automation for key HR tasks." },
-        { value: 4, text: "4. Fully automated workflows connected to HRIS/ERP." },
-        { value: 5, text: "5. Intelligent automation with validation rules, data enrichment, and AI checks." }
-      ]
-    },
-
-    {
-      id: "Q23", area: "Data Governance", title: "HR Data Governance & Integrity",
-      text: "How effectively does HR manage data quality, accuracy, audit control, and master data governance?",
-      choices: [
-        { value: 1, text: "1. Data quality unmanaged; frequent errors." },
-        { value: 2, text: "2. Basic manual reviews for corrections." },
-        { value: 3, text: "3. Defined structure for master data governance." },
-        { value: 4, text: "4. Digital data validation and integrity checks embedded." },
-        { value: 5, text: "5. Automated governance with AI-driven data cleansing and anomaly detection." }
-      ]
-    },
-
-    {
-      id: "Q24", area: "Cybersecurity", title: "HR Cybersecurity & Access Control",
-      text: "How mature is access control, data privacy protection, and HR system security in alignment with corporate cybersecurity?",
-      choices: [
-        { value: 1, text: "1. No structured HR security controls in place." },
-        { value: 2, text: "2. Basic authentication and manual access reviews." },
-        { value: 3, text: "3. Role-based access enforced in HR systems." },
-        { value: 4, text: "4. Regular audits, logs, and compliance with security policies." },
-        { value: 5, text: "5. Advanced identity, privacy monitoring, and automated compliance enforcement." }
-      ]
     }
-
+  ],
+  maturityBands: [
+    { name: "0–25% (Ad-hoc)", range: [0, 25], description: "Processes are informal and reactive. HR activities rely heavily on manual efforts and individual experience. No centralized HR system or defined ownership exists. Data is fragmented and not validated." },
+    { name: "26–50% (Basic)", range: [26, 50], description: "Some HR processes are partially documented (e.g., basic policies, job descriptions, and org charts). A few digital tools may exist but are used in isolation. Limited governance or reporting. Communication and updates are manual." },
+    { name: "51–75% (Managed)", range: [51, 75], description: "HR processes are standardized and documented with approved policies, procedures, and SLAs. ERP or HRIS systems are used for core functions. Roles and responsibilities are clearly defined, and performance reviews are conducted." },
+    { name: "76–90% (Advanced)", range: [76, 90], description: "HR operations are integrated with digital platforms (ERP, LMS, dashboards). Data flows between recruitment, onboarding, training, and payroll systems. Governance, version control, and continuous monitoring are in place." },
+    { name: "91–100% (Optimized)", range: [91, 100], description: "HR ecosystem is fully automated and data-driven. AI-driven insights support predictive hiring and engagement analytics. Systems are self-updating and integrated across all functions with enhanced decision-making through analytics and self-service." }
   ]
 };
