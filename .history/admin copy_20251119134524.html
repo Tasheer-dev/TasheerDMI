@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tasheer DMI – Admin Dashboard</title>
+
+  <!-- Bootstrap + Icons + Chart.js from CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Inline admin CSS (TailAdmin-style look) -->
+  <style>
+    :root {
+      --primary-blue: #004d9c;
+      --sidebar-bg: #f8fafc;
+    }
+    body {
+      background: #f3f4f6;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: 260px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+      background: var(--sidebar-bg);
+      border-right: 1px solid #e5e7eb;
+      padding-top: 70px;
+      z-index: 90;
+    }
+    .admin-sidebar-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 70px;
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      z-index: 91;
+    }
+    .admin-sidebar .nav-link {
+      padding: 10px 16px;
+      border-radius: 10px;
+      margin: 2px 8px;
+      color: #475569;
+      font-size: 0.92rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-sidebar .nav-link i {
+      font-size: 1.1rem;
+    }
+    .admin-sidebar .nav-link:hover {
+      background: #e5f1ff;
+      color: var(--primary-blue);
+    }
+    .admin-sidebar .nav-link.active {
+      background: #e0ecff;
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+
+    /* Topbar */
+    .admin-topbar {
+      position: fixed;
+      top: 0;
+      left: 260px;
+      right: 0;
+      height: 70px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 100;
+    }
+
+    /* Content */
+    .admin-content {
+      margin-left: 260px;
+      padding: 90px 24px 32px;
+      min-height: 100vh;
+    }
+
+    .kpi-card {
+      border-radius: 16px;
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+      padding: 18px 20px;
+    }
+    .kpi-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .card-section {
+      border-radius: 16px;
+      border: none;
+      background: #ffffff;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    #adminAreaList .badge {
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body onload="initAdminDashboard()">
+
+  <!-- SIDEBAR HEADER -->
+  <div class="admin-sidebar-header">
+    <div class="d-flex align-items-center gap-2">
+      <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center"
+           style="width:32px;height:32px;">
+        <i class="bi bi-graph-up"></i>
+      </div>
+      <div>
+        <div class="fw-semibold" style="font-size:0.95rem;">Tasheer DMI</div>
+        <div class="text-muted" style="font-size:0.75rem;">Admin Dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <nav id="adminDeptList" class="nav flex-column mt-2 pb-4">
+      <!-- Populated by JS from ADMIN_DEPARTMENTS -->
+    </nav>
+  </aside>
+
+  <!-- TOPBAR -->
+  <header class="admin-topbar">
+    <div>
+      <div class="text-muted small">Department Dashboard</div>
+      <h4 class="fw-semibold mb-0 text-primary" id="adminDeptTitle">Select a Department</h4>
+    </div>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <button id="openAssessmentBtn" class="btn btn-sm btn-outline-primary" type="button">
+        <i class="bi bi-box-arrow-up-right me-1"></i> Open Assessment
+      </button>
+      <button class="btn btn-sm btn-outline-danger" type="button" onclick="logout()">
+        <i class="bi bi-power me-1"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-content">
+
+    <!-- KPI ROW -->
+    <div class="row g-3 mb-4">
+      <!-- Tasheer Overall DMI (company average) -->
+      <div class="col-md-3 col-6">
+        <div class="kpi-card">
+          <div class="kpi-label">Tasheer Overall DMI</div>
+          <div id="adminTasheerOverall" class="kpi-value">–</div>
+          <div class="kpi-sub">Average maturity across all departments</div>
+        </div>
+      </div>
+
+      <!-- Selected Department Overall -->
+      <div class="col-md-3 col-6">
+        <div class="kpi-card">
+          <div class="kpi-label">Department DMI</div>
+          <div id="adminOverallPercent" class="kpi-value">–</div>
+          <div class="kpi-sub">Selected department maturity</div>
+        </div>
+      </div>
+
+      <!-- Questions Completed -->
+      <div class="col-md-3 col-6">
+        <div class="kpi-card">
+          <div class="kpi-label">Questions Completed</div>
+          <div id="adminQuestionsCard" class="kpi-value">–</div>
+          <div class="kpi-sub">Answered / total questions</div>
+        </div>
+      </div>
+
+      <!-- Band + Status -->
+      <div class="col-md-3 col-6">
+        <div class="kpi-card">
+          <div class="kpi-label">Maturity Band / Status</div>
+          <div id="adminBandName" class="kpi-value" style="font-size:1.2rem;">–</div>
+          <div id="adminBandDesc" class="kpi-sub mb-1"></div>
+          <div id="adminDataStatus" class="badge bg-light text-dark mt-1">No Data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART + AREA LIST -->
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card card-section p-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 fw-semibold">Area Breakdown</h6>
+          </div>
+          <div style="height:280px;">
+            <canvas id="adminAreaChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card card-section p-3">
+          <h6 class="fw-semibold mb-2">Areas Summary</h6>
+          <ul id="adminAreaList" class="list-group list-group-flush small">
+            <!-- Filled by JS -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ====== EXISTING APP SCRIPTS (quizzes + logic) ====== -->
+  <script src="maturitybands.js"></script>
+
+  <!-- Quiz files (names from your screenshot) -->
+  <script src="quiz_finance.js"></script>
+  <script src="quiz_branches_ops.js"></script>
+  <script src="quiz_pmo.js"></script>
+  <script src="quiz_business_dev.js"></script>
+  <script src="quiz_product_mgmt.js"></script>
+  <script src="quiz_marketing.js"></script>
+  <script src="quiz_solution_delivery.js"></script>
+  <script src="quiz_procurement.js"></script>
+  <script src="quiz_internal_audit.js"></script>
+  <script src="quiz_data_analytics.js"></script>
+  <script src="quiz_corporate_IT.js"></script>
+  <script src="quiz_infra-ops.js"></script>
+  <script src="quiz_IT-Operations.js"></script>
+  <script src="quiz_human_capital.js"></script>
+  <script src="quiz_grc.js"></script>
+  <script src="quiz_business_excellence.js"></script>
+  <script src="quiz_legal_affairs.js"></script>
+  <script src="quiz_cybersecurity.js"></script>
+  <script src="quiz_sap_ERP.js"></script>
+  <script src="quiz_tech_ITSM.js"></script>
+  <script src="quiz_tech_strategy.js"></script>
+
+  <!-- Shared logic and users (from your existing app) -->
+  <script src="users.js"></script>
+  <script src="logic.js"></script>
+
+  <!-- ====== INLINE ADMIN JS ====== -->
+  <script>
+    let adminAreaChartInstance = null;
+    let currentAdminDeptCode = null;
+
+    // Departments (Top 5 first, in your requested order)
+    const ADMIN_DEPARTMENTS = [
+      // PRIORITY
+      { code: "branches_ops",       name: "Branches Operations",              icon: "bi-shop" },
+      { code: "procurement",        name: "Procurement",                      icon: "bi-cart-check" },
+      { code: "solution_delivery",  name: "Solution Delivery",                icon: "bi-gear" },
+      { code: "internal_audit",     name: "Internal Auditing",                icon: "bi-clipboard-data" },
+      { code: "data_analytics",     name: "Data Analytics",                   icon: "bi-bar-chart-line" },
+
+      // Remaining departments
+      { code: "finance",            name: "Finance",                          icon: "bi-bank" },
+      { code: "pmo",                name: "PMO",                              icon: "bi-diagram-3" },
+      { code: "business_dev",       name: "Business Development",             icon: "bi-briefcase" },
+      { code: "product_mgmt",       name: "Product Management",               icon: "bi-box-seam" },
+      { code: "marketing",          name: "Marketing & Communications",       icon: "bi-megaphone" },
+      { code: "it_operations",      name: "Platforms & IT Solution Operations", icon: "bi-cpu" }, // quiz_IT-Operations.js
+      { code: "tech_strategy",      name: "Tech Strategy & Enterprise Architecture", icon: "bi-layers" },
+      { code: "corporate_it",       name: "Corporate IT",                     icon: "bi-laptop" },
+      { code: "infra_ops",          name: "Infrastructure & Operations",      icon: "bi-hdd-stack" },
+      { code: "human_capital",      name: "HCD",                              icon: "bi-people" },
+      { code: "grc",                name: "GRC",                              icon: "bi-shield-check" },
+      { code: "business_excellence",name: "Business Excellence",              icon: "bi-stars" },
+      { code: "legal_affairs",      name: "Legal & Regulatory",               icon: "bi-journal-text" },
+      { code: "cybersecurity",      name: "Cybersecurity",                    icon: "bi-shield-lock" }
+    ];
+
+    function initAdminDashboard() {
+      // Use existing session check
+      if (typeof requireLogin === "function" && !requireLogin()) return;
+
+      buildAdminSidebar();
+
+      const openBtn = document.getElementById("openAssessmentBtn");
+      if (openBtn) openBtn.addEventListener("click", openAssessmentForCurrent);
+
+      // Initial Tasheer overall (even before selecting dept, in case data already exists)
+      updateTasheerOverall();
+    }
+
+    function buildAdminSidebar() {
+      const list = document.getElementById("adminDeptList");
+      if (!list) return;
+      list.innerHTML = "";
+
+      ADMIN_DEPARTMENTS.forEach((dept, idx) => {
+        const a = document.createElement("a");
+        a.href = "javascript:void(0)";
+        a.className = "nav-link";
+        a.dataset.code = dept.code;
+        a.innerHTML = `<i class="bi ${dept.icon}"></i><span>${dept.name}</span>`;
+        a.addEventListener("click", () => selectDepartment(dept.code));
+        list.appendChild(a);
+
+        if (idx === 0) {
+          selectDepartment(dept.code);
+        }
+      });
+    }
+
+    function selectDepartment(deptCode) {
+      currentAdminDeptCode = deptCode;
+
+      const links = document.querySelectorAll("#adminDeptList .nav-link");
+      links.forEach(link => {
+        link.classList.toggle("active", link.dataset.code === deptCode);
+      });
+
+      const dmiSets = window.DMI_QUESTION_SETS || {};
+      const deptData = dmiSets[deptCode];
+      if (!deptData) {
+        updateDashboardForNoData(deptCode);
+        updateTasheerOverall();
+        return;
+      }
+
+      // Load saved answers using the same storage key as your assessment
+      const key = typeof getStorageKeyFor === "function"
+        ? getStorageKeyFor(deptCode)
+        : "tasheer_dmi_" + deptCode;
+
+      const saved = JSON.parse(localStorage.getItem(key) || "{}");
+
+      let totalPoints = 0;
+      let answered = 0;
+
+      deptData.questions.forEach(q => {
+        if (saved[q.id]) {
+          totalPoints += Number(saved[q.id]);
+          answered++;
+        }
+      });
+
+      const maxScore = deptData.maxScore || (deptData.questions.length * 5);
+      const percent = maxScore ? Math.round((totalPoints / maxScore) * 100) : 0;
+
+      const titleEl   = document.getElementById("adminDeptTitle");
+      const overallEl = document.getElementById("adminOverallPercent");
+      const qEl       = document.getElementById("adminQuestionsCard");
+      const statusEl  = document.getElementById("adminDataStatus");
+
+      if (titleEl)   titleEl.textContent = deptData.title || deptCode;
+      if (overallEl) overallEl.textContent = percent + "%";
+      if (qEl)       qEl.textContent = answered + " / " + (deptData.totalQuestions || deptData.questions.length);
+
+      if (statusEl) {
+        if (answered === 0) statusEl.textContent = "No Data";
+        else if (answered < (deptData.totalQuestions || deptData.questions.length)) statusEl.textContent = "Partial";
+        else statusEl.textContent = "Complete";
+      }
+
+      // Maturity band
+      let band = { name: "Unclassified", description: "" };
+      if (typeof getMaturityBand === "function") {
+        band = getMaturityBand(percent, deptData);
+      }
+      const bandNameEl = document.getElementById("adminBandName");
+      const bandDescEl = document.getElementById("adminBandDesc");
+      if (bandNameEl) bandNameEl.textContent = band.name || "Unclassified";
+      if (bandDescEl) bandDescEl.textContent = band.description || "";
+
+      // Area breakdown (using your shared helper)
+      if (typeof computeDynamicAreaScores === "function") {
+        const summary = computeDynamicAreaScores(deptData, saved);
+        renderAdminAreaChart(summary);
+        renderAdminAreaList(summary);
+      }
+
+      // Update company-wide average
+      updateTasheerOverall();
+    }
+
+    function updateDashboardForNoData(deptCode) {
+      const meta = ADMIN_DEPARTMENTS.find(d => d.code === deptCode);
+      const titleEl = document.getElementById("adminDeptTitle");
+      if (titleEl) titleEl.textContent = (meta && meta.name) || deptCode;
+
+      const overallEl = document.getElementById("adminOverallPercent");
+      const qEl       = document.getElementById("adminQuestionsCard");
+      const statusEl  = document.getElementById("adminDataStatus");
+      const bandNameEl = document.getElementById("adminBandName");
+      const bandDescEl = document.getElementById("adminBandDesc");
+
+      if (overallEl) overallEl.textContent = "–";
+      if (qEl)       qEl.textContent = "–";
+      if (statusEl)  statusEl.textContent = "No Data";
+      if (bandNameEl) bandNameEl.textContent = "Unclassified";
+      if (bandDescEl) bandDescEl.textContent = "";
+
+      renderAdminAreaChart({ areas: [], overall: 0 });
+      renderAdminAreaList({ areas: [], overall: 0 });
+    }
+
+    function renderAdminAreaChart(summary) {
+      const ctx = document.getElementById("adminAreaChart");
+      if (!ctx) return;
+
+      const labels = summary.areas.map(a => a.area);
+      const data   = summary.areas.map(a => a.percent);
+      const colors = data.map(p =>
+        (typeof getColorByScore === "function" ? getColorByScore(p) : "rgba(0,77,156,1)")
+      );
+
+      if (adminAreaChartInstance) adminAreaChartInstance.destroy();
+
+      adminAreaChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{
+            label: "Maturity %",
+            data,
+            backgroundColor: colors,
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 0, max: 100, ticks: { stepSize: 10 } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderAdminAreaList(summary) {
+      const list = document.getElementById("adminAreaList");
+      if (!list) return;
+      list.innerHTML = "";
+
+      summary.areas.forEach(a => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `
+          <span>${a.area}</span>
+          <span class="badge bg-light text-dark">${a.percent}%</span>
+        `;
+        list.appendChild(li);
+      });
+
+      const overallLi = document.createElement("li");
+      overallLi.className = "list-group-item d-flex justify-content-between align-items-center fw-semibold";
+      overallLi.innerHTML = `
+        <span>Overall</span>
+        <span class="badge bg-primary text-white">${summary.overall || 0}%</span>
+      `;
+      list.appendChild(overallLi);
+    }
+
+    // --- Tasheer Overall DMI (company average) ---
+    function computeTasheerOverallDMI() {
+      let totalPercentage = 0;
+      let deptCount = 0;
+      const sets = window.DMI_QUESTION_SETS || {};
+
+      ADMIN_DEPARTMENTS.forEach(dept => {
+        const deptData = sets[dept.code];
+        if (!deptData) return;
+
+        const key = typeof getStorageKeyFor === "function"
+          ? getStorageKeyFor(dept.code)
+          : "tasheer_dmi_" + dept.code;
+
+        const saved = JSON.parse(localStorage.getItem(key) || "{}");
+        if (!saved) return;
+
+        let total = 0;
+        let answered = 0;
+        deptData.questions.forEach(q => {
+          if (saved[q.id]) {
+            total += Number(saved[q.id]);
+            answered++;
+          }
+        });
+
+        if (answered > 0) {
+          const maxScore = deptData.maxScore || (deptData.questions.length * 5);
+          const percent = maxScore ? Math.round((total / maxScore) * 100) : 0;
+          totalPercentage += percent;
+          deptCount++;
+        }
+      });
+
+      if (deptCount === 0) return 0;
+      return Math.round(totalPercentage / deptCount);
+    }
+
+    function updateTasheerOverall() {
+      const overall = computeTasheerOverallDMI();
+      const el = document.getElementById("adminTasheerOverall");
+      if (el) el.textContent = overall ? overall + "%" : "–";
+    }
+
+    // Open assessment in new tab for current department
+    function openAssessmentForCurrent() {
+      if (!currentAdminDeptCode) return;
+
+      const deptCode = currentAdminDeptCode;
+      const sets = window.DMI_QUESTION_SETS || {};
+      const deptData = sets[deptCode];
+
+      sessionStorage.setItem("dmi_logged_in", "true");
+      sessionStorage.setItem("dmi_role", "department");
+      sessionStorage.setItem("dmi_deptCode", deptCode);
+      sessionStorage.setItem(
+        "dmi_displayName",
+        (deptData && deptData.title) || (deptCode.toUpperCase())
+      );
+
+      // Open main assessment page
+      window.open("index.html", "_blank");
+    }
+  </script>
+</body>
+</html>
