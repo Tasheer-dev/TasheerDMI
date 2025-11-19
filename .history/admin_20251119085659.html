@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tasheer DMI – Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/maturitybands.js"></script>
+  <script src="assets/js/users.js"></script>
+  <script src="assets/Java/logic.js"></script>
+  <script src="logic.js"></script>
+  <script src="users.js"></script>
+    <script src="maturitybands.js"></script>
+</head>
+<body onload="initAdminPage()" class="admin-body">
+  <div class="container">
+    <div class="header">
+      <h1>Tasheer DMI – Admin Dashboard</h1>
+      <div class="logo-container">
+        <img src="assets/img/company-logo.png" alt="Tasheer" />
+      </div>
+    </div>
+    <div class="admin-topbar">
+      <span>Logged as: <strong>admin</strong></span>
+      <button class="mini-link-btn warning" onclick="logout()">Logout</button>
+      <button class="mini-link-btn" onclick="window.location.href='dmi_6areas_dashboard.html'">
+  6-Area Summary Dashboard
+</button>
+<div id="adminDeptList" class="nav flex-column nav-pills gap-1">
+  <button class="nav-link text-start" data-code="finance">Finance</button>
+  <button class="nav-link text-start" data-code="branches_ops">Branches Operations</button>
+  <button class="nav-link text-start" data-code="pmo">PMO</button>
+  <button class="nav-link text-start" data-code="business_dev">Business Development</button>
+  <button class="nav-link text-start" data-code="product_mgmt">Product Management</button>
+  <button class="nav-link text-start" data-code="marketing">Marketing & Communications</button>
+  <button class="nav-link text-start" data-code="solution_delivery">Solution Development & Delivery</button>
+  <button class="nav-link text-start" data-code="platforms_it_ops">Platforms and IT Solution Operations</button>
+  <button class="nav-link text-start" data-code="enterprise_arch">Tech Strategy & Enterprise Architecture</button>
+  <button class="nav-link text-start" data-code="data_analytics">Data Analytics</button>
+  <button class="nav-link text-start" data-code="corporate_it">Corporate IT</button>
+  <button class="nav-link text-start" data-code="infrastructure_ops">Infrastructure & Operations</button>
+  <button class="nav-link text-start" data-code="hcd">HCD</button>
+  <button class="nav-link text-start" data-code="grc">GRC</button>
+  <button class="nav-link text-start" data-code="business_excellence">Business Excellence</button>
+  <button class="nav-link text-start" data-code="legal">Legal & Regulatory</button>
+  <button class="nav-link text-start" data-code="cybersecurity">Cybersecurity</button>
+  <button class="nav-link text-start" data-code="procurement">Procurement</button>
+  <button class="nav-link text-start" data-code="internal_audit">Internal Auditing</button>
+</div>
+
+    </div>
+    <div class="admin-grid">
+      <div class="admin-left">
+        <h3>Departments Submissions</h3>
+        <table class="score-table admin-table" id="adminDeptTable">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>User</th>
+              <th style="text-align:center;">Score %</th>
+              <th style="text-align:center;">Updated</th>
+            </tr>
+            
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="admin-right">
+        <div class="live-score-card">
+          <h4>Tasheer Final DMI</h4>
+          <canvas id="adminCompanyChart" height="200"></canvas>
+          <p id="adminCompanyPercent" class="mt-2"></p>
+        </div>
+      </div>
+    </div>
+    <h3 class="mt-4">Department Doughnuts</h3>
+    <div class="row-charts" id="adminDeptCharts"></div>
+  </div>
+
+
+
+  <script src="maturitybands.js"></script>
+<script src="users.js"></script>
+
+<!-- Load ALL quizzes here -->
+<script src="assets/quizzes/quiz_branches_ops.js"></script>
+<script src="assets/quizzes/quiz_business_dev.js"></script>
+<script src="assets/quizzes/quiz_business_excellence.js"></script>
+<script src="assets/quizzes/quiz_corporate_IT.js"></script>
+<script src="assets/quizzes/quiz_cybersecurity.js"></script>
+<script src="assets/quizzes/quiz_data_analytics.js"></script>
+<script src="assets/quizzes/quiz_finance.js"></script>
+<script src="assets/quizzes/quiz_grc.js"></script>
+<script src="assets/quizzes/quiz_human_capital.js"></script>
+<script src="assets/quizzes/quiz_infra_ops.js"></script>
+<script src="assets/quizzes/quiz_internal_audit.js"></script>
+<script src="assets/quizzes/quiz_IT-Operations.js"></script>
+<script src="assets/quizzes/quiz_legal_affairs.js"></script>
+<script src="assets/quizzes/quiz_marketing.js"></script>
+<script src="assets/quizzes/quiz_pmo.js"></script>
+<script src="assets/quizzes/quiz_procurement.js"></script>
+<script src="assets/quizzes/quiz_product_mgmt.js"></script>
+<script src="assets/quizzes/quiz_sap_ERP.js"></script>
+<script src="assets/quizzes/quiz_solution_delivery.js"></script>
+<script src="assets/quizzes/quiz_tech_ITSM.js"></script>
+<script src="assets/quizzes/quiz_tech_strategy.js"></script>
+
+<script src="logic.js"></script>
+
+</body>
+</html>
+
