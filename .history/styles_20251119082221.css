@@ -88,11 +88,37 @@ body {
 
 
 
+/* --- Admin dashboard layout additions --- */
+
+.admin-sidebar {
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  padding-top: 1rem;
+  background-color: #f9fafb;
+}
+
+#adminDeptList .nav-link {
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.6rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+  background: transparent;
+}
+
+#adminDeptList .nav-link:hover {
+  background-color: #e5f1ff;
+  color: var(--primary-blue);
+}
+
+#adminDeptList .nav-link.active {
+  background-color: #e3f2fd;
+  color: var(--primary-blue);
+  font-weight: 600;
+}
 
 
 /* styles.css –---------------------------------------------------------------------------------------------------- full */
-
-
 /* styles.css –---------------------------------------------------------------------------------------------------- full */
 /* styles.css –---------------------------------------------------------------------------------------------------- full */
 
